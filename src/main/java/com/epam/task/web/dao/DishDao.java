@@ -30,4 +30,5 @@ public class DishDao extends AbstractDao<Dish> {
     public void update(Dish entity) throws DaoException {
 
     }
+
 }

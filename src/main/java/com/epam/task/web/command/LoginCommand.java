@@ -28,11 +28,19 @@ public class LoginCommand implements Command {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            request.getSession().setAttribute("user", user);
-            return CommandResult.redirect(MAIN_PAGE);
+            if (user.isEnabled()) {
+                request.getSession().setAttribute("userId", user.getId());
+                request.getSession().setAttribute("userRole", user.getRole().getValue());
+                request.getSession().setAttribute("userLogin", user.getLogin());
+                return CommandResult.redirect(MAIN_PAGE);
+            } else {
+                request.setAttribute("errorMessage", "User is blocked");
+                return CommandResult.forward(LOGIN_PAGE);
+            }
         } else {
             request.setAttribute("errorMessage", " Invalid username or password");
             return CommandResult.forward(LOGIN_PAGE);
         }
     }
+
 }

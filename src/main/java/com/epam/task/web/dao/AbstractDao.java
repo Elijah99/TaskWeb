@@ -16,6 +16,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     private static final String SELECT_ALL = "SELECT * FROM %s";
     private static final String SELECT_BY_ID = "SELECT * FROM %s where id = ?";
     private static final String DELETE_BY_ID = "DELETE FROM %s where id = ?";
+    private static final String SELECT_WITH_LIMIT = "SELECT * FROM %s LIMIT ?,?";
 
     private final ProxyConnection connection;
     private final RowMapper<T> mapper;
@@ -100,6 +101,11 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         } else {
             update(entity);
         }
+    }
+
+    public List<T> getWithLimit(long numSkipped, Integer limit) throws DaoException {
+        String query = String.format(SELECT_WITH_LIMIT,tableName);
+        return executeQuery(query, numSkipped, limit);
     }
 
     public abstract void create(T entity) throws DaoException;

@@ -12,8 +12,8 @@ public class UserDao extends AbstractDao<User> {
 
     private static final String FIND_BY_LOGIN = "SELECT * FROM Users WHERE BINARY login = ?";
     private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM Users WHERE BINARY login = ? AND BINARY password = md5(?)";
-    private static final String CREATE = "INSERT INTO Users (login, password, role, points, money) VALUES (?, md5(?), ?, ?, ?)";
-    private static final String UPDATE = "UPDATE Users SET login = ?, password = md5(?), role = ?, points = ?, money = ? WHERE id = ?";
+    private static final String CREATE = "INSERT INTO Users (login, password, role, points, money, isEnabled) VALUES (?, md5(?), ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE Users SET login = ?, password = ?, role = ?, points = ?, money = ?, isEnabled = ? WHERE id = ?";
 
 
     public UserDao(ProxyConnection connection) {
@@ -39,7 +39,14 @@ public class UserDao extends AbstractDao<User> {
     }
 
     @Override
-    public void update(User entity) {
-        throw new UnsupportedOperationException();
+    public void update(User user) throws DaoException {
+        executeUpdate(UPDATE,
+                user.getLogin(),
+                user.getPassword(),
+                user.getRole().getValue(),
+                user.getPoints(),
+                user.getMoney(),
+                user.isEnabled(),
+                user.getId());
     }
 }

@@ -17,11 +17,11 @@ public class UserRowMapper implements RowMapper<User> {
     private final static String ROLE = "role";
     private final static String POINTS = "points";
     private final static String MONEY = "money";
+    private final static String IS_ENABLED = "isEnabled";
 
 
     @Override
     public User mapRow(ResultSet resultSet) throws SQLException {
-        User user = new User();
         BigInteger id = (BigInteger) resultSet.getObject(ID);
         String login = resultSet.getString(LOGIN);
         String password = resultSet.getString(PASSWORD);
@@ -29,7 +29,8 @@ public class UserRowMapper implements RowMapper<User> {
         Role role = getRoleFromString(roleString);
         double points = resultSet.getDouble(POINTS);
         BigDecimal money = resultSet.getBigDecimal(MONEY);
-        return new User(id, login, password, role, points, money);
+        boolean isEnabled = resultSet.getBoolean(IS_ENABLED);
+        return new User(id, login, password, role, points, money,isEnabled);
     }
 
     private Role getRoleFromString(String text) throws SQLException {

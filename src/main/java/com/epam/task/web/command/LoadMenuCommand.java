@@ -7,6 +7,7 @@ import com.epam.task.web.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,16 @@ public class LoadMenuCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        Optional<Menu> currentDateMenu = menuService.getMenuByCurrentDate();
-        if (currentDateMenu.isPresent()) {
-            List<Dish> dishes = currentDateMenu.get().getDishes();
+        HttpSession session = request.getSession();
+        String textDate = request.getParameter("dateMenu");
+        if (textDate != null) {
+            session.setAttribute("dateMenu", textDate);
+        } else {
+            textDate = (String) session.getAttribute("dateMenu");
+        }
+        Optional<Menu> menuForDate = menuService.getMenuByDate(textDate);
+        if (menuForDate.isPresent()) {
+            List<Dish> dishes = menuForDate.get().getDishes();
             request.setAttribute("dishes", dishes);
         }
         return CommandResult.forward(MAIN_PAGE);

@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.util.List;
 
 public class Menu extends Entity {
+
+    public static final String TABLE_NAME = "Menu";
+
     private Date date;
     private List<Dish> dishes;
 

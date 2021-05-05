@@ -1,15 +1,8 @@
 package com.epam.task.web.connection;
 
-import com.epam.task.web.loader.PropertiesLoader;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
-import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReference;

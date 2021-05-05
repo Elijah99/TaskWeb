@@ -29,7 +29,7 @@ public class ConnectionFactory {
             password = properties.getProperty("db.password");
 
         } catch (ClassNotFoundException | IOException e) {
-            throw new ConnectionException(e);
+            throw new ConnectionException(e.getMessage(), e);
         }
     }
 

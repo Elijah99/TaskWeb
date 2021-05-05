@@ -5,6 +5,8 @@ import java.math.BigInteger;
 
 public class Dish extends Entity {
 
+    public static final String TABLE_NAME = "Dishes";
+
     private String name;
     private String description;
     private String imagePath;
