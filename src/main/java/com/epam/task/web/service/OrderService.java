@@ -21,7 +21,6 @@ public class OrderService {
             helper.startTransaction();
             OrderDao orderDao = helper.createOrderDao();
             orderDao.save(order);
-            order = orderDao.findByCreationDate(order.getCreationDate()).get();
             DishesOrdersDao dishesOrdersDao = helper.createDishesOrdersDao();
             List<DishesOrders> dishesOrders = createDishesOrders(order);
             for (DishesOrders value : dishesOrders) {

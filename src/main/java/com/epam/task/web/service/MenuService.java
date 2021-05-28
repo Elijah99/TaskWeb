@@ -18,7 +18,7 @@ public class MenuService {
         daoHelperFactory = new DaoHelperFactory();
     }
 
-    public Optional<Menu> getMenuByDate(String textDate) throws ServiceException{
+    public Optional<Menu> getMenuByDate(String textDate) throws ServiceException {
         Date date = Date.valueOf(textDate);
         return getMenuByDate(date);
     }

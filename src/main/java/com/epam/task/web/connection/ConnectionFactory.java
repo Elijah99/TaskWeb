@@ -3,6 +3,7 @@ package com.epam.task.web.connection;
 import com.epam.task.web.loader.PropertiesLoader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,8 +19,12 @@ public class ConnectionFactory {
     private final String password;
 
     ConnectionFactory() {
-        try {
-            Properties properties = new PropertiesLoader().loadProperties(PROPERTIES_FILE);
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+            if (inputStream == null) {
+                throw new IOException("File doesn't exist");
+            }
+            Properties properties = new Properties();
+            properties.load(inputStream);
 
             driver = properties.getProperty("db.driver");
             Class.forName(driver);

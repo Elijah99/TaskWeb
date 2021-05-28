@@ -21,58 +21,58 @@
         <label class="date-menu" for="dateMenu">
             <fmt:message key="label.menu_for"/>
         </label>
-        <input type="date" class="date-menu" name="dateMenu" id="dateMenu" value=required="required">
+        <input type="date" class="date-menu" name="dateMenu" id="dateMenu" value="2021-05-28" required="required">
         <button type="submit">
             <fmt:message key="label.menu_load"/>
         </button>
     </form>
-    <form action="${pageContext.request.contextPath}/controller?command=create-order" method="post" id="order-form"
+    <form action="${pageContext.request.contextPath}/controller?command=cart-page" method="post" id="order-form"
           name="order" class="order-form">
         <c:import url="/controller?command=dishesList"/>
         <c:if test="${dishesList != null}">
             <c:forEach var="dish" items="${dishesList}">
-                <form class="card" method="post">
-                    <img alt="dish" class="card-image"
-                         src="${pageContext.request.contextPath}/${dish.imagePath}">
-
-                    <div class="card-container">
-                        <h4><b>${dish.name}</b></h4>
-                        <p>${dish.description}</p>
-                        <p> <fmt:message key="label.price"/> ${dish.price}</p>
-                        <c:if test="${sessionScope.userRole == 'Client'}">
-                            <p>
-                                <label>
-                                    <fmt:message key="label.quantity"/>
-                                    <input type="number" name="quantityDishes" min="0" max="10">
-                                </label>
-                                <input type="hidden" name="idDish" value="${dish.id}">
-                                <button type="submit"
-                                        formaction="${pageContext.request.contextPath}/controller?command=add-to-cart"
-                                        class="btn order-btn">
-                                    <fmt:message key="label.add"/>
-                                </button>
-                                <c:if test="${sessionScope.idDishInCart != null}">
+                <form method="post">
+                    <div class="card">
+                        <div class=" card-container">
+                            <h4><h2>${dish.name}</h2></h4>
+                            <p>${dish.description}</p>
+                            <p><fmt:message key="label.price"/> ${dish.price}</p>
+                            <c:if test="${sessionScope.userRole == 'Client'}">
+                                <p>
+                                    <label>
+                                        <fmt:message key="label.quantity"/>
+                                        <input type="number" name="quantityDishes" min="0" max="10">
+                                    </label>
+                                    <input type="hidden" name="idDish" value="${dish.id}">
                                     <button type="submit"
-                                            formaction="${pageContext.request.contextPath}/controller?command=delete-from-cart"
-                                            class="btn">
-                                        <fmt:message key="label.delete"/>
+                                            formaction="${pageContext.request.contextPath}/controller?command=add-to-cart"
+                                            value="${dish}"
+                                            class="btn order-btn">
+                                        <fmt:message key="label.add"/>
                                     </button>
-                                </c:if>
-                            </p>
-                        </c:if>
+                                    <c:if test="${requestScope.cartDishes.contains(dish)}">
+                                        <button type="submit"
+                                                formaction="${pageContext.request.contextPath}/controller?command=delete-from-cart"
+                                                class="btn btn-remove">
+                                            <fmt:message key="label.delete"/>
+                                        </button>
+                                    </c:if>
+                                </p>
+                            </c:if>
+                        </div>
                     </div>
                 </form>
             </c:forEach>
             <div class="pagination">
                 <c:url var="searchUri" value="/controller?command=main&pageIndex=##"/>
                 <pagination:show maxLinks="3" currPage="${pageIndex}" itemsCount="${DishesCount}"
-                                   itemsOnPage="${DishesOnPage}" uri="${searchUri}"/>
+                                 itemsOnPage="${DishesOnPage}" uri="${searchUri}"/>
             </div>
             <c:if test="${sessionScope.userRole == 'Client'}">
                 <div class="main-submit-block">
                     <label class="price">
                         <fmt:message key="label.amount"/>
-                        <input disabled="disabled">
+                        <input disabled="disabled" value="${requestScope.cartPrice}">
                     </label>
                     <button class="btn btn-lg" type="submit">
                         <fmt:message key="label.create_order"/>
@@ -87,12 +87,4 @@
 
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"/>
-<script>
-    $(document).ready(
-        function () {
-            $(".date-menu").change(function () {
-                var date = $(this).val();
-                sessionStorage.setItem("dateMenu", date);
-            });
-        });
-</script>
+<script src="../js/index.js"/>

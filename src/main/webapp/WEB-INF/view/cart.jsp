@@ -9,16 +9,15 @@
 <jsp:include page="fragments/header.jsp"/>
 <main>
     <div class="cart-content">
-        <fmt:message key="label.ordered"/>
+        <h2 class="lb-ordered">
+            <fmt:message key="label.ordered"/>
+        </h2>
         <c:forEach var="dishItem" items="${requestScope.cartDishes}">
             <form class="card" method="post">
-                    <%--                    <img class="card-image" src="${dish.imagePath}">--%>
-                <img alt="dish" class="card-image"
-                     src="${pageContext.request.contextPath}/${dishItem.dish.imagePath}">
                 <div class="card-container">
-                    <h4><b>${dishItem.dish.name}</b></h4>
+                    <h4><h2>${dishItem.dish.name}</h2></h4>
                     <p>${dishItem.dish.description}</p>
-                    <p> <fmt:message key="label.price"/> ${dishItem.dish.price}</p>
+                    <p><fmt:message key="label.price"/> ${dishItem.dish.price}</p>
 
                     <p>
                         <label>

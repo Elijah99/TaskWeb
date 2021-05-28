@@ -20,8 +20,7 @@
         </button>
     </div>
     <div id="addMenuForm" style="display: none" class="add-menu-container">
-        <form method="post" action="${pageContext.request.contextPath}/controller?command=add-menu"
-              class="card-container">
+        <form method="post" action="${pageContext.request.contextPath}/controller?command=add-menu">
             <label><fmt:message key="label.name"/></label>
             <input type="text" class="form-control" name="name">
             <label><fmt:message key="label.description"/></label>
@@ -43,7 +42,7 @@
                       class="usersForm-content" method="post">
                     <input id="login" name="login" type="hidden" value="${user.login}">
                     <label>
-                        <fmt:message key="label.login"/>
+                        <fmt:message key="label.username"/>
                         <input value="${user.login}" disabled="disabled">
                     </label>
                     <label>
@@ -54,7 +53,7 @@
                         <fmt:message key="label.is_enabled"/>
                         <input value="${user.enabled}" disabled="disabled">
                     </label>
-                    <button type="submit" class="btn btn-lg">
+                    <button type="submit" class="btn btn-remove">
                         <fmt:message key="label.disable"/>
                     </button>
                 </form>
@@ -65,13 +64,4 @@
 </body>
 </html>
 
-<script>
-    function showAddMenuForm() {
-        $(".usersForm, .add-menu-container").toggle();
-    }
-
-    function showUsersForm() {
-        window.location.href = "${pageContext.request.contextPath}/controller?command=users-crud";
-        $(".add-menu-container, .usersForm").toggle();
-    }
-</script>
+<script src="../js/admin-page.js"/>

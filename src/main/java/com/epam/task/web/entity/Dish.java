@@ -30,6 +30,12 @@ public class Dish extends Entity {
     public Dish() {
     }
 
+    public Dish(String name, String description, BigDecimal price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }

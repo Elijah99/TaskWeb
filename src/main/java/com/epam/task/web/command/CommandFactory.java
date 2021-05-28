@@ -1,6 +1,5 @@
 package com.epam.task.web.command;
 
-import com.epam.task.web.dao.DaoHelperFactory;
 import com.epam.task.web.service.DishService;
 import com.epam.task.web.service.MenuService;
 import com.epam.task.web.service.UserService;
@@ -15,8 +14,10 @@ public class CommandFactory {
     private final static String USERS_CRUD = "users-crud";
     private final static String DISABLE_USER = "disable-user";
     private final static String ADD_TO_CART = "add-to-cart";
+    private final static String DELETE_FROM_CART = "delete-from-cart";
     private final static String CART = "cart";
     private final static String DISHES_LIST = "dishesList";
+    private final static String PAYMENT = "payment";
 
 
     private final static String MAIN = "main";
@@ -29,6 +30,7 @@ public class CommandFactory {
     private final static String MAIN_PAGE = "WEB-INF/view/index.jsp";
     private final static String ADMIN_PAGE = "WEB-INF/view/admin-page.jsp";
     private final static String CART_PAGE = "WEB-INF/view/cart.jsp";
+    private final static String PAYMENT_PAGE = "WEB-INF/view/payment.jsp";
 
     public Command create(String type) {
         switch (type) {
@@ -56,8 +58,12 @@ public class CommandFactory {
                 return new DisableUserCommand(new UserService());
             case ADD_TO_CART:
                 return new AddToCartCommand();
+            case DELETE_FROM_CART:
+                return new DeleteFromCartCommand();
             case DISHES_LIST:
                 return new GetDishesByPageCommand(new DishService());
+            case PAYMENT:
+                return new ShowPageCommand(PAYMENT_PAGE);
             default:
                 throw new IllegalArgumentException("Unknown type of Command: " + type);
 

@@ -47,7 +47,7 @@ public class PaginationTagHandler extends SimpleTagSupport {
         Writer out = getJspContext().getOut();
         try {
             if (currPage > 1) {
-                out.write(constructLink(currPage - 1, "Next"));
+                out.write(constructLink(currPage - 1, "<--"));
             }
             for (int i = pgStart; i < pgEnd; i++) {
                 if (i == currPage) {
@@ -57,7 +57,7 @@ public class PaginationTagHandler extends SimpleTagSupport {
                 }
             }
             if (!(currPage == totalPages)) {
-                out.write(constructLink(currPage + 1, "Next"));
+                out.write(constructLink(currPage + 1, "-->"));
             }
 
         } catch (IOException e) {
@@ -93,4 +93,23 @@ public class PaginationTagHandler extends SimpleTagSupport {
         return link.toString();
     }
 
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public void setCurrPage(int currPage) {
+        this.currPage = currPage;
+    }
+
+    public void setItemsCount(int itemsCount) {
+        this.itemsCount = itemsCount;
+    }
+
+    public void setItemsOnPage(int itemsOnPage) {
+        this.itemsOnPage = itemsOnPage;
+    }
+
+    public void setMaxLinks(int maxLinks) {
+        this.maxLinks = maxLinks;
+    }
 }

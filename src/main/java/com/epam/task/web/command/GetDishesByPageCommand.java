@@ -25,7 +25,7 @@ public class GetDishesByPageCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
-        String page = (String)  session.getAttribute(PAGE_INDEX);
+        String page = (String)   session.getAttribute(PAGE_INDEX);
         int pageIndex = Integer.parseInt(page);
         List<Dish> vacancyList = service.getDishesByPage(pageIndex);
         request.setAttribute(DISHES_LIST, vacancyList);

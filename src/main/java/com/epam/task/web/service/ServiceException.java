@@ -1,6 +1,5 @@
 package com.epam.task.web.service;
 
-import com.epam.task.web.dao.DaoException;
 
 public class ServiceException extends Exception {
 
