@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UsersCrudCommand implements Command {
 
-    private final static String USERS_CRUD_PAGE = "controller?command=admin-page";
+    private final static String MANAGE_USERS_PAGE = "controller?command=manage-users-page";
 
     UserService service;
 
@@ -22,6 +22,6 @@ public class UsersCrudCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         List<User> users = service.getUsers();
         request.getSession().setAttribute("users", users);
-        return CommandResult.forward(USERS_CRUD_PAGE);
+        return CommandResult.forward(MANAGE_USERS_PAGE);
     }
 }

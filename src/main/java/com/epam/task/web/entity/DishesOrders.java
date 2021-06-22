@@ -8,17 +8,19 @@ public class DishesOrders extends Entity {
 
     private BigInteger idDish;
     private BigInteger idOrder;
-    private int number;
+    private BigInteger number;
 
-    public DishesOrders(BigInteger idOrder, BigInteger idDish) {
+    public DishesOrders(BigInteger idOrder, BigInteger idDish, int number) {
         this.idDish = idDish;
         this.idOrder = idOrder;
+        this.number = BigInteger.valueOf(number);
     }
 
-    public DishesOrders(BigInteger id, BigInteger idOrder, BigInteger idDish) {
+    public DishesOrders(BigInteger id, BigInteger idOrder, BigInteger idDish, BigInteger number) {
         super(id);
         this.idDish = idDish;
         this.idOrder = idOrder;
+        this.number = number;
     }
 
     public BigInteger getIdDish() {
@@ -27,5 +29,9 @@ public class DishesOrders extends Entity {
 
     public BigInteger getIdOrder() {
         return idOrder;
+    }
+
+    public BigInteger getNumber() {
+        return number;
     }
 }

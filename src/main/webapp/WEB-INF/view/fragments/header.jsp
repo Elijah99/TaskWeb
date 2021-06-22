@@ -10,7 +10,7 @@
 <fmt:setBundle basename="language/language" scope="session"/>
 
 <html lang="${lang}">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/static/styles.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/styles.css"/>
 
 <nav class="navbar">
     <a href="${pageContext.servletContext.contextPath}/controller?command=main" class="header-logo">CAFE</a>
@@ -30,11 +30,17 @@
         <c:if test="${sessionScope.userRole == 'Client'}">
             <a href="${pageContext.request.contextPath}/controller?command=cart-page">
                 <fmt:message key="label.cart"/>
+                <c:if test="${not empty sessionScope.cartPrice}">(${sessionScope.cartPrice})</c:if>
             </a>
         </c:if>
         <c:if test="${sessionScope.userRole == 'Admin'}">
-            <a href="${pageContext.request.contextPath}/controller?command=admin-page">
-                <fmt:message key="label.admin_page"/>
+            <a href="${pageContext.request.contextPath}/controller?command=manage-users">
+                <fmt:message key="label.manage_users"/>
+            </a>
+        </c:if>
+        <c:if test="${sessionScope.userRole == 'Admin'}">
+            <a href="${pageContext.request.contextPath}/controller?command=add-dish-page">
+                <fmt:message key="label.add_dish_title"/>
             </a>
         </c:if>
         <c:if test="${sessionScope.userId != null}">

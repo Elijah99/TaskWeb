@@ -32,6 +32,7 @@ public class LoginCommand implements Command {
                 request.getSession().setAttribute("userId", user.getId());
                 request.getSession().setAttribute("userRole", user.getRole().getValue());
                 request.getSession().setAttribute("userLogin", user.getLogin());
+                request.getSession().setAttribute("userMoney", user.getMoney());
                 return CommandResult.redirect(MAIN_PAGE);
             } else {
                 request.setAttribute("errorMessage", "User is blocked");

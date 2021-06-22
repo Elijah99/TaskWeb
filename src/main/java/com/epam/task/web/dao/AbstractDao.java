@@ -21,6 +21,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     private final ProxyConnection connection;
     private final RowMapper<T> mapper;
     private final String tableName;
+    private BigInteger lastInsertedId;
 
     public AbstractDao(ProxyConnection connection, RowMapper<T> mapper, String tableName) {
         this.connection = connection;
@@ -30,7 +31,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
     private PreparedStatement createStatement(String query, Object... params) throws SQLException {
 
-        PreparedStatement statement = connection.prepareStatement(query);
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         for (int i = 0; i < params.length; ++i) {
             statement.setObject(i + 1, params[i]);
         }
@@ -75,7 +76,10 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
         try (PreparedStatement statement = createStatement(query, params)) {
             statement.executeUpdate();
-
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if(resultSet.next()){
+                lastInsertedId = BigInteger.valueOf(resultSet.getInt(1));
+            }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -116,5 +120,9 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     public Optional<T> findEntityById(BigInteger id) throws DaoException {
         String query = String.format(SELECT_BY_ID, tableName);
         return executeSingleResultQuery(query, id);
+    }
+
+    public BigInteger getLastInsertedId() {
+        return lastInsertedId;
     }
 }

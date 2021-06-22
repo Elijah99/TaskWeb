@@ -64,4 +64,12 @@ public class User extends Entity {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public void setPoints(double points) {
+        this.points = points;
+    }
 }

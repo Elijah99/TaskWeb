@@ -15,17 +15,16 @@
 <jsp:include page="fragments/header.jsp"/>
 
 <main class="menu-container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><fmt:message key="label.menu"/></h1>
+            <ol class="breadcrumb">
+                <li class="active"><fmt:message key="label.main_page"/> </a>
+                </li>
+            </ol>
+        </div>
+    </div>
 
-    <form action="${pageContext.request.contextPath}/controller?command=load-menu" method="post" id="load-menu-form"
-          class="">
-        <label class="date-menu" for="dateMenu">
-            <fmt:message key="label.menu_for"/>
-        </label>
-        <input type="date" class="date-menu" name="dateMenu" id="dateMenu" value="2021-05-28" required="required">
-        <button type="submit">
-            <fmt:message key="label.menu_load"/>
-        </button>
-    </form>
     <form action="${pageContext.request.contextPath}/controller?command=cart-page" method="post" id="order-form"
           name="order" class="order-form">
         <c:import url="/controller?command=dishesList"/>
@@ -68,17 +67,6 @@
                 <pagination:show maxLinks="3" currPage="${pageIndex}" itemsCount="${DishesCount}"
                                  itemsOnPage="${DishesOnPage}" uri="${searchUri}"/>
             </div>
-            <c:if test="${sessionScope.userRole == 'Client'}">
-                <div class="main-submit-block">
-                    <label class="price">
-                        <fmt:message key="label.amount"/>
-                        <input disabled="disabled" value="${requestScope.cartPrice}">
-                    </label>
-                    <button class="btn btn-lg" type="submit">
-                        <fmt:message key="label.create_order"/>
-                    </button>
-                </div>
-            </c:if>
         </c:if>
     </form>
 </main>
@@ -87,4 +75,17 @@
 
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"/>
-<script src="../js/index.js"/>
+<script>
+    function addDishToCart(dish) {
+        ${requestScope.cartDishes.add(dish)}
+    }
+
+    $(document).ready(
+        function () {
+            $(".date-menu").change(function () {
+                var date = $(this).val();
+                sessionStorage.setItem("dateMenu", date);
+            });
+        });
+
+</script>

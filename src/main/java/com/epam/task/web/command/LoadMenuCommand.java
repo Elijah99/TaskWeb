@@ -22,16 +22,9 @@ public class LoadMenuCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        HttpSession session = request.getSession();
-        String textDate = request.getParameter("dateMenu");
-        if (textDate != null) {
-            session.setAttribute("dateMenu", textDate);
-        } else {
-            textDate = (String) session.getAttribute("dateMenu");
-        }
-        Optional<Menu> menuForDate = menuService.getMenuByDate(textDate);
-        if (menuForDate.isPresent()) {
-            List<Dish> dishes = menuForDate.get().getDishes();
+        Optional<Menu> menu = menuService.getMenu();
+        if (menu.isPresent()) {
+            List<Dish> dishes = menu.get().getDishes();
             request.setAttribute("dishes", dishes);
         }
         return CommandResult.forward(MAIN_PAGE);

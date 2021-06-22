@@ -21,6 +21,9 @@ public class Menu extends Entity {
         super(id);
         this.date = date;
     }
+    public Menu(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
 
     public Menu() {
     }

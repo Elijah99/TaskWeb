@@ -2,6 +2,7 @@ package com.epam.task.web.entity;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class Dish extends Entity {
 
@@ -50,5 +51,21 @@ public class Dish extends Entity {
 
     public BigDecimal getPrice() {
         return price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dish dish = (Dish) o;
+        return Objects.equals(name, dish.name) &&
+                Objects.equals(description, dish.description) &&
+                Objects.equals(imagePath, dish.imagePath) &&
+                Objects.equals(price, dish.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, imagePath, price);
     }
 }

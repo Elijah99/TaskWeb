@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-public class DisableUserCommand implements Command {
+public class InvertUserEnable implements Command {
 
-    private final static String ADMIN_PAGE = "controller?command=admin-page";
+    private final static String ADMIN_PAGE = "controller?command=manage-users-page";
 
     UserService service;
 
 
-    public DisableUserCommand(UserService service) {
+    public InvertUserEnable(UserService service) {
         this.service = service;
     }
 
@@ -26,11 +26,11 @@ public class DisableUserCommand implements Command {
         String login = request.getParameter("login");
         Optional<User> user = service.getUserByLogin(login);
         if (user.isPresent()) {
-            service.disableUser(user.get());
+            service.invertUserEnable(user.get());
         }
         List<User> users = service.getUsers();
         request.getSession().setAttribute("users", users);
 
-        return CommandResult.redirect(ADMIN_PAGE);
+        return CommandResult.forward(ADMIN_PAGE);
     }
 }

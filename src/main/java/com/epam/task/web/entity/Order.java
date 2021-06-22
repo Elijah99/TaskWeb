@@ -15,9 +15,15 @@ public class Order extends Entity {
     private PaymentType paymentType;
     private double rating;
     private String comment;
-    private List<Dish> dishes;
+    private List<CartItem> dishes;
 
     public Order() {
+    }
+
+    public Order(BigInteger userId, Timestamp creationDate, List<CartItem> dishes) {
+        this.userId = userId;
+        this.creationDate = creationDate;
+        this.dishes = dishes;
     }
 
     public Order(BigInteger id, BigInteger userId, Timestamp creationDate,
@@ -57,7 +63,7 @@ public class Order extends Entity {
         return comment;
     }
 
-    public List<Dish> getDishes() {
+    public List<CartItem> getDishes() {
         return dishes;
     }
 
@@ -65,7 +71,7 @@ public class Order extends Entity {
         return userId;
     }
 
-    public void setDishes(List<Dish> dishes) {
+    public void setDishes(List<CartItem> dishes) {
         this.dishes = dishes;
     }
 

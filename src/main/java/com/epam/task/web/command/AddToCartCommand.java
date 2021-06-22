@@ -37,33 +37,43 @@ public class AddToCartCommand implements Command {
             if (dish.isPresent()) {
                 HttpSession session = request.getSession();
                 addToCart(session, new CartItem(dish.get(), quantity));
-                updateCartPrice(request, dish.get().getPrice());
+                updateCartPrice(request, dish.get().getPrice(), quantity);
             } else {
                 throw new ServiceException("Error while add to cart");
             }
         } catch (ServiceException e) {
-            CommandResult.redirect(MAIN_PAGE);
+            return CommandResult.redirect(MAIN_PAGE);
         }
 
         return CommandResult.forward(MAIN_PAGE);
     }
 
-    private void addToCart(HttpSession session, CartItem item) {
+    private void addToCart(HttpSession session, CartItem itemToAdd) {
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-        if (session.getAttribute("cart") == null) {
+        if (cart == null) {
             cart = new ArrayList<CartItem>();
         }
-        cart.add(item);
+        if (cart.contains(itemToAdd)) {
+            int indexOfItem = cart.indexOf(itemToAdd);
+            CartItem itemInCart = cart.get(indexOfItem);
+            int updatedQuantity = itemInCart.getQuantity() + itemToAdd.getQuantity();
+            itemInCart.setQuantity(updatedQuantity);
+            cart.set(indexOfItem,itemInCart);
+        } else {
+            cart.add(itemToAdd);
+        }
         session.setAttribute("cart", cart);
     }
 
-    private void updateCartPrice(HttpServletRequest request, BigDecimal price) {
-        BigDecimal cartPrice = (BigDecimal) request.getAttribute("cartPrice");
+    private void updateCartPrice(HttpServletRequest request, BigDecimal price, int quantity) {
+        HttpSession session = request.getSession();
+        BigDecimal cartPrice = (BigDecimal) session.getAttribute("cartPrice");
+        BigDecimal quantityBigDecimal = new BigDecimal(quantity);
         if (cartPrice == null) {
-            cartPrice = price;
+            cartPrice = price.multiply(quantityBigDecimal);
         } else {
-            cartPrice = cartPrice.add(price);
+            cartPrice = cartPrice.add(price.multiply(quantityBigDecimal));
         }
-        request.setAttribute("cartPrice", cartPrice);
+        session.setAttribute("cartPrice", cartPrice);
     }
 }

@@ -8,7 +8,6 @@
 
 <head>
     <title><fmt:message key="label.login_page"/></title>
-    <link rel="stylesheet" href="./static/styles.css"/>
 </head>
 
 <body>
@@ -21,7 +20,8 @@
     <input id="inputEmail" minlength="5" maxlength="20" class="form-control" name="login" required autofocus/>
 
     <label for="inputPassword" class="sr-only"></label>
-    <input type="password" minlength="5" maxlength="20" id="inputPassword" class="form-control" name="password" required/>
+    <input type="password" minlength="5" maxlength="20" id="inputPassword" class="form-control" name="password"
+           required/>
     <input type="submit" value="<fmt:message key="label.login"/>" class="btn btn-lg btn-block">
     <br/>
     <a href="javascript:history.back()"><fmt:message key="label.back"/></a>

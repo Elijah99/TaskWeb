@@ -8,6 +8,7 @@ import com.epam.task.web.service.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +27,28 @@ public class DeleteFromCartCommand implements Command {
 
         HttpSession session = request.getSession();
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-        if (session.getAttribute("cart") == null) {
+        if (cart == null) {
             cart = new ArrayList<CartItem>();
         }
-
+        BigDecimal priceOfItem = getPriceOfItem(cart, idDish);
         cart.removeIf(item -> item.getDish().getId().equals(idDish));
 
-        return CommandResult.forward(CART_PAGE);
+        BigDecimal cartPrice = (BigDecimal) session.getAttribute("cartPrice");
+        cartPrice = cartPrice.subtract(priceOfItem);
+        session.setAttribute("cartPrice", cartPrice);
+
+        return CommandResult.redirect(CART_PAGE);
+    }
+
+    private BigDecimal getPriceOfItem(List<CartItem> cart, BigInteger id) {
+        for (CartItem item : cart) {
+            if (item.getDish().getId().equals(id)) {
+                BigDecimal price = item.getDish().getPrice();
+                int quantity = item.getQuantity();
+                return price.multiply(new BigDecimal(quantity));
+            }
+        }
+        return null;
     }
 
 }

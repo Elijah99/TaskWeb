@@ -73,4 +73,13 @@ public class DishService {
     public static int getDishesOnPage() {
         return DISHES_ON_PAGE;
     }
+
+    public void saveDish(Dish dish) throws ServiceException {
+        try (DaoHelper helper = daoHelperFactory.create()) {
+            DishDao dao = helper.createDishDao();
+            dao.save(dish);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

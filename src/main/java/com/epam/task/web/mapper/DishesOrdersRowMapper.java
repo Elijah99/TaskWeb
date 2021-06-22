@@ -13,13 +13,16 @@ public class DishesOrdersRowMapper implements RowMapper<DishesOrders> {
     private static final String ID = "id";
     private static final String ID_ORDER = "id_order";
     private static final String ID_DISH = "id_dish";
+    private static final String NUMBER = "number";
+
 
     @Override
     public DishesOrders mapRow(ResultSet resultSet) throws SQLException {
         BigInteger id = (BigInteger) resultSet.getObject(ID);
         BigInteger idOrder = (BigInteger) resultSet.getObject(ID_ORDER);
         BigInteger idDish = (BigInteger) resultSet.getObject(ID_DISH);
-        return new DishesOrders(id, idDish,idOrder);
+        BigInteger number = (BigInteger) resultSet.getObject(NUMBER);
+        return new DishesOrders(id, idDish, idOrder, number);
 
     }
 }
